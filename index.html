@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCanva</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>CodeCanva</h1>
+        <textarea id="codeInput" placeholder="Paste or write your code here..."></textarea>
+        <div class="controls">
+            <select id="languageSelector">
+                <option value="auto">Auto Detect</option>
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="java">Java</option>
+                <option value="c">C</option>
+            </select>
+            <button class="btn-cyan" onclick="highlightCode()">Highlight</button>
+            <button class="btn-cyan" onclick="formatCode()">Format</button>
+            <button class="btn-cyan" onclick="checkSyntax()">Check Syntax</button>
+            <button class="btn-cyan" onclick="shareCode()">Get Shareable Link</button>
+            <input type="text" id="searchBox" placeholder="Search code..." onkeyup="searchCode()">
+        </div>
+        <div class="output">
+            <pre><code id="highlightedCode"></code></pre>
+        </div>
+        <div id="errorOutput" class="error-output"></div>
+    </div>
+    <button class="history-btn" onclick="toggleHistory()" title="View History">📜</button>
+    <div class="history-modal" id="historyModal">
+        <div class="history-content">
+            <div class="history-header">
+                <h2>History</h2>
+                <button class="close-btn" onclick="toggleHistory()">Close</button>
+            </div>
+            <div id="historyList"></div>
+            <button class="clear-all-btn" onclick="clearAllHistory()">Clear All History</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.8.8/standalone.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.8.8/parser-babel.min.js"></script>
+    <script src="https://unpkg.com/esprima@4.0.1/dist/esprima.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

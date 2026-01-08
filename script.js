@@ -203,7 +203,59 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
+async function runCode() {
+    const code = document.getElementById("codeInput").value;
+    const lang = document.getElementById("languageSelector").value;
+    
+    if (!code.trim()) {
+        alert('Please enter some code first!');
+        return;
+    }
+    
+    const outputDiv = document.getElementById("highlightedCode");
+    outputDiv.textContent = "⏳ Running code...";
+    
+    const langMap = {
+        'javascript': 63,
+        'python': 71,
+        'java': 62,
+        'c': 50,
+        'cpp': 54,
+        'html': 63
+    };
+    
+    const languageId = langMap[lang] || 63;
+    
+    try {
+        const response = await fetch('https://judge0-ce.p.rapidapi.com/submissions?wait=true', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'X-RapidAPI-Key': '74bd03d2b6mshaceb6c3c7f6828cp1cb305jsnbaf759756fcd',
+                'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+            },
+            body: JSON.stringify({
+                source_code: code,
+                language_id: languageId
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.stdout) {
+            outputDiv.textContent = "✅ Output:\n" + result.stdout;
+        } else if (result.stderr) {
+            outputDiv.textContent = "❌ Error:\n" + result.stderr;
+        } else if (result.compile_output) {
+            outputDiv.textContent = "❌ Compile Error:\n" + result.compile_output;
+        } else {
+            outputDiv.textContent = "✅ Code executed successfully (no output)";
+        }
+        
+    } catch (error) {
+        outputDiv.textContent = "❌ Error: " + error.message;
+    }
+}
 window.onload = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const sharedCode = urlParams.get("code");
@@ -214,3 +266,4 @@ window.onload = () => {
   }
   loadHistory();
 };
+
